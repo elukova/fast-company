@@ -6,7 +6,6 @@ const BookMark = (props) => {
   if (status === false) {
     return (
       <svg
-        // onClick={() => console.log("click")}
         onClick={() => props.onToggleBookMark(id)}
         xmlns="http://www.w3.org/2000/svg"
         width="16"
@@ -20,6 +19,7 @@ const BookMark = (props) => {
   } else {
     return (
       <svg
+        onClick={() => props.onToggleBookMark(id)}
         xmlns="http://www.w3.org/2000/svg"
         width="16"
         height="16"
