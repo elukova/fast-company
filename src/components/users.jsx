@@ -6,7 +6,7 @@ const Users = (props) => {
 
   return (
     <>
-      <table class="table">
+      <table className="table">
         <thead>
           <tr>
             <th scope="col">Имя</th>
@@ -24,7 +24,7 @@ const Users = (props) => {
               key={user._id}
               {...user}
               onDelete={props.onDelete}
-              onToggleBookMark={props.onsToggleBookMark}
+              onToggleBookMark={props.onToggleBookMark}
             />
           ))}
         </tbody>

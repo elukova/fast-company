@@ -9,13 +9,27 @@ function App() {
   const handleDelete = (userId) => {
     setUsers((prevState) => prevState.filter((user) => user._id !== userId));
   };
-  const handleToggleBookMark = (id) => {};
+  const handleToggleBookMark = (id) => {
+    const markedUser = users.find((user) => user._id === id);
+    const markedUserIndex = users.indexOf(markedUser);
+    markedUser.bookmark = !markedUser.bookmark;
+    setUsers((prevState) =>
+      prevState.map((user, index) => {
+        if (index === markedUserIndex) {
+          user = markedUser;
+          return user;
+        } else {
+          return user;
+        }
+      })
+    );
+  };
 
   if (users.length) {
     return (
       <>
         <h2>
-          <SearchStatus length={users.length} onDelete={handleDelete} />
+          <SearchStatus length={users.length} />
         </h2>
         <Users
           users={users}
