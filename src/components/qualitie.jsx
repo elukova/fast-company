@@ -1,12 +1,7 @@
 import React from "react";
 
-const Qualitie = ({ color, name, _id }) => {
-  return (
-    <span>
-      <span className={"badge bg-" + color}>{name}</span>
-      <span> </span>
-    </span>
-  );
+const Qualitie = ({ color, name }) => {
+  return <span className={"badge m-1 bg-" + color}>{name}</span>;
 };
 
 export default Qualitie;
