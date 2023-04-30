@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 const SearchStatus = ({ length }) => {
   if (!length) {
@@ -26,6 +27,10 @@ const SearchStatus = ({ length }) => {
       </span>
     );
   }
+};
+
+SearchStatus.propTypes = {
+  length: PropTypes.number.isRequired,
 };
 
 // const SearchStatus = ({ length }) => {
