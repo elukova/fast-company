@@ -16,6 +16,9 @@ module.exports = {
     "comma-dangle": 0,
     semi: ["error", "always"],
     // "react/prop-types": [0],
-    "space-before-function-paren": ["error", "never"],
+    "space-before-function-paren": [
+      "error",
+      { anonymous: "always", named: "never" },
+    ],
   },
 };
