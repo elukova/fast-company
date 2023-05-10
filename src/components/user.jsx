@@ -14,6 +14,7 @@ const User = ({
   bookmark,
   onToggleBookMark,
 }) => {
+  // console.log(professions);
   return (
     <tr>
       <th scope="row">{name}</th>

@@ -25,13 +25,23 @@ const Users = ({ users, ...rest }) => {
   }, [selectedProf]);
 
   const handleProfessionSelect = (item) => {
+    // console.log(item);
     setSelectedProf(item);
   };
+
+  console.log(selectedProf);
+  console.log(users);
+
+  users.forEach((user) => {
+    console.log(user.profession);
+  });
 
   const filteredUsers = selectedProf
     ? users.filter((user) => user.profession === selectedProf)
     : users;
   const count = filteredUsers.length;
+
+  console.log(filteredUsers);
 
   const userCrop = paginate(filteredUsers, currentPage, pageSize);
   const clearFilter = () => {
