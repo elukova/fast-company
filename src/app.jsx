@@ -6,7 +6,6 @@ import Users from "./components/users";
 function App() {
   // const [users, setUsers] = useState([]);
   const [users, setUsers] = useState([]);
-  // console.log(users);
   useEffect(() => {
     API.users.fetchAll().then((data) => setUsers(data));
   }, []);
