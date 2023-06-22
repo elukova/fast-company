@@ -2,8 +2,6 @@ import React from "react";
 import PropTypes from "prop-types";
 
 const SearchString = ({ onUserSearch }) => {
-  // const [searchTerm, setSearchTerm] = useState("");
-
   return (
     <input
       type="text"
@@ -14,10 +12,6 @@ const SearchString = ({ onUserSearch }) => {
         onUserSearch(e.target.value);
         console.log(e.target.value);
       }}
-      // onChange={(e) => {
-      //   setSearchTerm(e.target.value);
-      //   console.log(searchTerm);
-      // }}
     />
   );
 };
