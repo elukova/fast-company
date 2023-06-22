@@ -8,6 +8,7 @@ import PropTypes from "prop-types";
 import API from "../api";
 import GroupList from "./groupList";
 import SearchStatus from "./searchStatus";
+import SearchString from "./searchString";
 
 // eslint-disable-next-line react/prop-types
 const UsersList = () => {
@@ -34,6 +35,7 @@ const UsersList = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [professions, setProfessions] = useState();
   const [selectedProf, setSelectedProf] = useState();
+  const [searchName, setSearchName] = useState("");
   const [sortBy, setSortBy] = useState({ path: "name", order: "asc" });
   const handlePageChange = (pageIndex) => {
     setCurrentPage(pageIndex);
@@ -44,11 +46,19 @@ const UsersList = () => {
   useEffect(() => {
     API.professions.fetchAll().then((data) => setProfessions(data));
   }, []);
+
   useEffect(() => {
     setCurrentPage(1);
-  }, [selectedProf]);
+  }, [selectedProf, searchName]);
+
   const handleProfessionSelect = (item) => {
     setSelectedProf(item);
+    setSearchName("");
+  };
+
+  const handleUserSearch = (searchText) => {
+    setSearchName(searchText);
+    setSelectedProf();
   };
 
   if (users) {
@@ -56,6 +66,10 @@ const UsersList = () => {
       ? users.filter(
           (user) =>
             JSON.stringify(user.profession) === JSON.stringify(selectedProf)
+        )
+      : searchName
+      ? users.filter((user) =>
+          user.name.toLowerCase().includes(searchName.toLowerCase())
         )
       : users;
     const count = filteredUsers.length;
@@ -74,8 +88,6 @@ const UsersList = () => {
               selectedItem={selectedProf}
               items={professions}
               onItemSelect={handleProfessionSelect}
-              // valueProperty="_id"
-              // contentProperty="name"
             />
             <button className="btn-secondary mt-2" onClick={clearFilter}>
               Очистить
@@ -84,6 +96,10 @@ const UsersList = () => {
         )}
         <div className="d-flex flex-column">
           <SearchStatus length={count} />
+          <SearchString
+            searchName={searchName}
+            onUserSearch={handleUserSearch}
+          />
           {users.length > 0 && (
             <UserTable
               users={userCrop}

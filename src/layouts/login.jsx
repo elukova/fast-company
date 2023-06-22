@@ -46,33 +46,45 @@ const Login = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const isValid = validate();
-    if (!isValid) return;
-    console.log(data);
+    // const isValid = validate();
+    // if (!isValid) return;
+    if (isValid) {
+      console.log(data);
+    }
   };
   return (
-    <form onSubmit={handleSubmit}>
-      <TextField
-        label="Email"
-        name="email"
-        placeholder="123@mail.ru"
-        value={data.email}
-        onChange={handleChange}
-        error={errors.email}
-      />
-      <TextField
-        label="Password"
-        type="password"
-        name="password"
-        placeholder="password"
-        value={data.password}
-        onChange={handleChange}
-        error={errors.password}
-      />
-      <button type="submit" disabled={!isValid}>
-        Submit
-      </button>
-    </form>
+    <div className="container mt-5">
+      <div className="row">
+        <div className="col-md-6 offset-md-3 shadow p-4">
+          <h3 className="mb-4">Login</h3>
+          <form onSubmit={handleSubmit}>
+            <TextField
+              label="Email"
+              name="email"
+              placeholder="123@mail.ru"
+              value={data.email}
+              onChange={handleChange}
+              error={errors.email}
+            />
+            <TextField
+              label="Password"
+              type="password"
+              name="password"
+              placeholder="password"
+              value={data.password}
+              onChange={handleChange}
+              error={errors.password}
+            />
+            <button
+              type="submit"
+              disabled={!isValid}
+              className="btn btn-primary w-100 mx-auto">
+              Submit
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
   );
 };
 

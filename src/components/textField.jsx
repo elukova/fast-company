@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 
 const TextField = ({
@@ -10,18 +10,36 @@ const TextField = ({
   onChange,
   error,
 }) => {
+  const [showPassword, setShowPassword] = useState(false);
+  const getInputClasses = () => {
+    return "form-control" + (error ? " is-invalid" : "");
+  };
+  const toggleShowPassword = () => {
+    setShowPassword((prevState) => !prevState);
+  };
   return (
-    <div>
+    <div className="mb-4">
       <label htmlFor={name}>{label}</label>&nbsp;
-      <input
-        type={type}
-        id={name}
-        placeholder={placeholder}
-        name={name}
-        value={value}
-        onChange={onChange}
-      />
-      {error && <p>{error}</p>}
+      <div className="input-group has-validation">
+        <input
+          type={showPassword ? "text" : type}
+          id={name}
+          placeholder={placeholder}
+          name={name}
+          value={value}
+          onChange={onChange}
+          className={getInputClasses()}
+        />
+        {type === "password" && (
+          <button
+            className="btn btn-outline-secondary"
+            type="button"
+            onClick={toggleShowPassword}>
+            <i className={"bi bi-eye" + (showPassword ? "-slash" : "")}></i>
+          </button>
+        )}
+        {error && <div className="invalid-feedback">{error}</div>}
+      </div>
     </div>
   );
 };
