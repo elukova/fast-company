@@ -10,7 +10,6 @@ const SearchString = ({ onUserSearch }) => {
       aria-label="Search..."
       onChange={(e) => {
         onUserSearch(e.target.value);
-        console.log(e.target.value);
       }}
     />
   );
