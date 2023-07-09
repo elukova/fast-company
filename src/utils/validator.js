@@ -3,9 +3,14 @@ export function validator(data, config) {
   function validate(validateMethod, data, config) {
     let statusValidate;
     switch (validateMethod) {
-      case "isRequired":
-        statusValidate = data.trim() === "";
+      case "isRequired": {
+        if (typeof data === "boolean") {
+          statusValidate = !data;
+        } else {
+          statusValidate = data === "";
+        }
         break;
+      }
       case "isEmail": {
         const emailRegExp = /^\S+@\S+\.\S+$/g;
         statusValidate = !emailRegExp.test(data);
@@ -14,6 +19,11 @@ export function validator(data, config) {
       case "isCapitalSymbol": {
         const capitalRegExp = /[A-Z]+/g;
         statusValidate = !capitalRegExp.test(data);
+        break;
+      }
+      case "isName": {
+        const nameRegExp = /^[А-Я][а-я]+/g;
+        statusValidate = !nameRegExp.test(data);
         break;
       }
       case "isContainDigit": {
