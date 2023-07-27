@@ -1,60 +1,48 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import API from "../../../api";
-import QualitiesList from "../../ui/qualities/qualitiesList";
-// import { useHistory } from "react-router-dom";
-import { Link } from "react-router-dom";
 import EditUserPage from "../editUserPage/editUserPage";
+import UserCard from "../../ui/userCard";
+import QualitiesCard from "../../ui/qualitiesCard";
+import MeetingsCard from "../../ui/meetingsCard";
+import Comments from "../../ui/comments";
 
 const UserPage = ({ userId, edit }) => {
   const [user, setUser] = useState();
 
-  // const history = useHistory();
-
   useEffect(() => {
-    API.users.getById(userId).then((data) => setUser(data));
-  }, [user]);
+    API.users.getById(userId).then((data) => {
+      // debugger;
+      setUser(data);
+    });
+  }, []);
 
-  // const handleClick = () => {
-  //   history.push("/users");
-  // };
+  // console.log(user);
 
   return user ? (
     edit ? (
       <EditUserPage user={user} />
     ) : (
-      <>
-        <h1>{user.name}</h1>
-        <h2>Профессия: {user.profession.name}</h2>
-        <QualitiesList qualities={user.qualities} />
-        <p>completedMeetings: {user.completedMeetings}</p>
-        <h2>Rate: {user.rate}</h2>
+      <div className="container">
+        <div className="row gutters-sm">
+          <div className="col-md-4 mb-3">
+            <UserCard user={user} />
+            <QualitiesCard data={user.qualities} />
+            <MeetingsCard value={user.completedMeetings} />
 
-        <Link to={`/users/${user._id}/edit`}>
-          <button className="btn btn-primary mx-auto">Edit</button>
-        </Link>
-      </>
+            {/* <Link to={`/users/${user._id}/edit`}>
+              <button className="btn btn-primary mx-auto">Edit</button>
+            </Link> */}
+          </div>
+          <div className="col-md-8">
+            <Comments />
+          </div>
+        </div>
+      </div>
     )
   ) : (
     <h1>Loading...</h1>
   );
-
-  //   if (user) {
-  //     return (
-  //       <>
-  //         <h1>{user.name}</h1>
-  //         <h2>Профессия: {user.profession.name}</h2>
-  //         <QualitiesList qualities={user.qualities} />
-  //         <p>completedMeetings: {user.completedMeetings}</p>
-  //         <h2>Rate: {user.rate}</h2>
-  //         <button>
-  //           <Link to={`/users/${user._id}/edit`}>Edit</Link>
-  //         </button>
-  //       </>
-  //     );
-  //   } else {
-  //     return <h1>Loading...</h1>;
-  //   }
 };
 
 UserPage.propTypes = {

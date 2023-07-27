@@ -9,6 +9,7 @@ const TextField = ({
   value,
   onChange,
   error,
+  ...rest
 }) => {
   const [showPassword, setShowPassword] = useState(false);
 
@@ -34,6 +35,7 @@ const TextField = ({
           value={value}
           onChange={handleChange}
           className={getInputClasses()}
+          {...rest}
         />
         {type === "password" && (
           <button
