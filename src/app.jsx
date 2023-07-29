@@ -1,12 +1,10 @@
 import React from "react";
-import NavBar from "./components/navBar";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, Redirect } from "react-router-dom";
 
-import Main from "./components/main";
-import Login from "./components/login";
-// import UsersList from "./components/usersList";
-// import User from "./components/user";
-import Users from "./components/users";
+import NavBar from "./components/navBar";
+import Main from "./layouts/main";
+import Login from "./layouts/login";
+import Users from "./layouts/users";
 
 function App() {
   return (
@@ -16,8 +14,7 @@ function App() {
         <Route path="/" exact component={Main} />
         <Route path="/login" component={Login} />
         <Route path="/users/:userId?" component={Users} />
-        {/* <Route path="/users/:userId" render={(props) => <User {...props} />} />
-        <Route path="/users" component={UsersList} /> */}
+        <Redirect to="/" />
       </Switch>
     </>
   );
