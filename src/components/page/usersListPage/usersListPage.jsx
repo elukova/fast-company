@@ -8,20 +8,21 @@ import PropTypes from "prop-types";
 import API from "../../../api";
 import GroupList from "../../common/groupList";
 import SearchStatus from "../../ui/searchStatus";
+import { useUser } from "../../../hooks/useUsers";
 // import SearchString from "../../common/form/searchString";
 
 // eslint-disable-next-line react/prop-types
 const UsersListPage = () => {
   const pageSize = 8;
 
-  const [users, setUsers] = useState();
-  useEffect(() => {
-    API.users.fetchAll().then((data) => setUsers(data));
-  }, []);
+  const { users } = useUser();
+  // console.log(users);
 
   const handleDelete = (userId) => {
-    setUsers(users.filter((user) => user._id !== userId));
+    // setUsers(users.filter((user) => user._id !== userId));
+    console.log(userId);
   };
+
   const handleToggleBookMark = (id) => {
     const newArray = users.map((user) => {
       if (user._id === id) {
@@ -29,7 +30,8 @@ const UsersListPage = () => {
       }
       return user;
     });
-    setUsers(newArray);
+    // setUsers(newArray);
+    console.log(newArray);
   };
 
   const [currentPage, setCurrentPage] = useState(1);
