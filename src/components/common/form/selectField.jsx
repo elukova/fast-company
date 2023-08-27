@@ -11,6 +11,7 @@ const SelectField = ({
   options,
   name,
   error,
+  ...rest
 }) => {
   const handleChange = ({ target }) => {
     onChange({ name: target.name, value: target.value });
@@ -35,6 +36,7 @@ const SelectField = ({
         id={name}
         name={name}
         value={value}
+        {...rest}
         onChange={handleChange}>
         <option disabled={disabled} value="">
           {defaultOption}

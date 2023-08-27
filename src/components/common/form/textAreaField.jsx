@@ -1,18 +1,14 @@
-import React, { useState } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 
-const TextField = ({
+const TextAreaField = ({
   label,
-  type,
   placeholder,
   name,
   value,
   onChange,
   error,
-  ...rest
 }) => {
-  const [showPassword, setShowPassword] = useState(false);
-
   const handleChange = ({ target }) => {
     onChange({ name: target.name, value: target.value });
   };
@@ -20,39 +16,28 @@ const TextField = ({
   const getInputClasses = () => {
     return "form-control" + (error ? " is-invalid" : "");
   };
-  const toggleShowPassword = () => {
-    setShowPassword((prevState) => !prevState);
-  };
+
   return (
     <div className="mb-4">
       <label htmlFor={name}>{label}</label>&nbsp;
       <div className="input-group has-validation">
-        <input
-          type={showPassword ? "text" : type}
+        <textarea
           id={name}
           placeholder={placeholder}
           name={name}
           value={value}
           onChange={handleChange}
           className={getInputClasses()}
-          {...rest}
         />
-        {type === "password" && (
-          <button
-            className="btn btn-outline-secondary"
-            type="button"
-            onClick={toggleShowPassword}>
-            <i className={"bi bi-eye" + (showPassword ? "-slash" : "")}></i>
-          </button>
-        )}
+
         {error && <div className="invalid-feedback">{error}</div>}
       </div>
     </div>
   );
 };
-TextField.defaultProps = { type: "text" };
+TextAreaField.defaultProps = { type: "text" };
 
-TextField.propTypes = {
+TextAreaField.propTypes = {
   label: PropTypes.string.isRequired,
   type: PropTypes.string,
   name: PropTypes.string.isRequired,
@@ -62,4 +47,4 @@ TextField.propTypes = {
   placeholder: PropTypes.string,
 };
 
-export default TextField;
+export default TextAreaField;

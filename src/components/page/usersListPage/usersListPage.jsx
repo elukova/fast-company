@@ -8,7 +8,7 @@ import PropTypes from "prop-types";
 import API from "../../../api";
 import GroupList from "../../common/groupList";
 import SearchStatus from "../../ui/searchStatus";
-import SearchString from "../../common/form/searchString";
+// import SearchString from "../../common/form/searchString";
 
 // eslint-disable-next-line react/prop-types
 const UsersListPage = () => {
@@ -35,7 +35,7 @@ const UsersListPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [professions, setProfessions] = useState();
   const [selectedProf, setSelectedProf] = useState();
-  const [searchName, setSearchName] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState({ path: "name", order: "asc" });
   const handlePageChange = (pageIndex) => {
     setCurrentPage(pageIndex);
@@ -49,27 +49,28 @@ const UsersListPage = () => {
 
   useEffect(() => {
     setCurrentPage(1);
-  }, [selectedProf, searchName]);
+  }, [selectedProf, searchQuery]);
 
   const handleProfessionSelect = (item) => {
     setSelectedProf(item);
-    setSearchName("");
+    if (searchQuery !== "") setSearchQuery("");
   };
 
-  const handleUserSearch = (searchText) => {
-    setSearchName(searchText);
-    setSelectedProf();
+  const handleSearchQuery = ({ target }) => {
+    setSearchQuery(target.value);
+    setSelectedProf(undefined);
   };
 
   if (users) {
-    const filteredUsers = selectedProf
+    const filteredUsers = searchQuery
+      ? users.filter(
+          (user) =>
+            user.name.toLowerCase().indexOf(searchQuery.toLowerCase()) !== -1
+        )
+      : selectedProf
       ? users.filter(
           (user) =>
             JSON.stringify(user.profession) === JSON.stringify(selectedProf)
-        )
-      : searchName
-      ? users.filter((user) =>
-          user.name.toLowerCase().includes(searchName.toLowerCase())
         )
       : users;
     const count = filteredUsers.length;
@@ -96,9 +97,14 @@ const UsersListPage = () => {
         )}
         <div className="d-flex flex-column">
           <SearchStatus length={count} />
-          <SearchString
-            searchName={searchName}
-            onUserSearch={handleUserSearch}
+          <input
+            type="text"
+            name="searchQuery"
+            className="form-control"
+            placeholder="Search..."
+            aria-label="Search..."
+            onChange={handleSearchQuery}
+            value={searchQuery}
           />
           {users.length > 0 && (
             <UserTable
