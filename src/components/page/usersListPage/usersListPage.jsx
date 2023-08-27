@@ -1,17 +1,17 @@
 /* eslint-disable indent */
 import React, { useState, useEffect } from "react";
-import Pagination from "./pagination";
-import UserTable from "./usersTable";
+import Pagination from "../../common/pagination";
+import UserTable from "../../ui/usersTable";
 import _ from "lodash";
-import { paginate } from "../utils/paginate";
+import { paginate } from "../../../utils/paginate";
 import PropTypes from "prop-types";
-import API from "../api";
-import GroupList from "./groupList";
-import SearchStatus from "./searchStatus";
-import SearchString from "./searchString";
+import API from "../../../api";
+import GroupList from "../../common/groupList";
+import SearchStatus from "../../ui/searchStatus";
+import SearchString from "../../common/form/searchString";
 
 // eslint-disable-next-line react/prop-types
-const UsersList = () => {
+const UsersListPage = () => {
   const pageSize = 8;
 
   const [users, setUsers] = useState();
@@ -124,8 +124,8 @@ const UsersList = () => {
   return "loading...";
 };
 
-UsersList.propTypes = {
+UsersListPage.propTypes = {
   filteredUsers: PropTypes.array,
 };
 
-export default UsersList;
+export default UsersListPage;

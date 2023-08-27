@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-import ArrowUp from "./arrowUp";
-import ArrowDown from "./arrowDown";
+import ArrowUp from "../arrowUp";
+import ArrowDown from "../arrowDown";
 
 const TableHeader = ({ onSort, selectedSort, columns }) => {
   const handleSort = (item) => {
@@ -13,7 +13,6 @@ const TableHeader = ({ onSort, selectedSort, columns }) => {
     } else {
       onSort({ path: item, order: "asc" });
     }
-    console.log(item);
   };
   const checkOrder = () => {
     if (selectedSort.order === "asc") {

@@ -15,7 +15,7 @@ module.exports = {
     quotes: ["error", "double", { allowTemplateLiterals: true }],
     "comma-dangle": 0,
     semi: ["error", "always"],
-    // "react/prop-types": [0],
+    "multiline-ternary": [0],
     "space-before-function-paren": [
       "error",
       { anonymous: "always", named: "never" },
