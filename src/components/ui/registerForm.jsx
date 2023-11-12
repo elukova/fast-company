@@ -17,6 +17,7 @@ const RegisterForm = () => {
   const [data, setData] = useState({
     email: "",
     password: "",
+    name: "",
     profession: "",
     sex: "male",
     qualities: [],
@@ -45,6 +46,13 @@ const RegisterForm = () => {
     email: {
       isRequired: { message: "Email is required" },
       isEmail: { message: "Email is incorrect" },
+    },
+    name: {
+      isRequired: { message: "Name is required" },
+      min: {
+        message: "Name must consist of at least 3 characters",
+        value: 3,
+      },
     },
     password: {
       isRequired: { message: "Password is required" },
@@ -103,6 +111,14 @@ const RegisterForm = () => {
         value={data.email}
         onChange={handleChange}
         error={errors.email}
+      />
+      <TextField
+        label="Name"
+        name="name"
+        placeholder="name"
+        value={data.name}
+        onChange={handleChange}
+        error={errors.name}
       />
       <TextField
         label="Password"
