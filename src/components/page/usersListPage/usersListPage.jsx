@@ -8,8 +8,12 @@ import PropTypes from "prop-types";
 import GroupList from "../../common/groupList";
 import SearchStatus from "../../ui/searchStatus";
 import { useUser } from "../../../hooks/useUsers";
-import { useProfessions } from "../../../hooks/useProfession";
 import { useAuth } from "../../../hooks/useAuth";
+import { useSelector } from "react-redux";
+import {
+  getProfessions,
+  getProfessionsLoadingStatus,
+} from "../../../store/professions";
 // import SearchString from "../../common/form/searchString";
 
 // eslint-disable-next-line react/prop-types
@@ -35,7 +39,8 @@ const UsersListPage = () => {
     console.log(newArray);
   };
 
-  const { professions, isLoading: professionsLoading } = useProfessions();
+  const professions = useSelector(getProfessions());
+  const professionsLoading = useSelector(getProfessionsLoadingStatus());
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedProf, setSelectedProf] = useState();
   const [searchQuery, setSearchQuery] = useState("");
