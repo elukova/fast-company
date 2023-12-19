@@ -1,24 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import PropTypes from "prop-types";
-import API from "../../../api";
 import EditUserPage from "../editUserPage/editUserPage";
 import UserCard from "../../ui/userCard";
 import QualitiesCard from "../../ui/qualitiesCard";
 import MeetingsCard from "../../ui/meetingsCard";
 import Comments from "../../ui/comments";
+import { CommentsProvider } from "../../../hooks/useComments";
+import { useSelector } from "react-redux";
+import { getUserById } from "../../../store/users";
 
 const UserPage = ({ userId, edit }) => {
-  const [user, setUser] = useState();
-
-  useEffect(() => {
-    API.users.getById(userId).then((data) => {
-      // debugger;
-      setUser(data);
-    });
-  }, []);
-
-  // console.log(user);
-
+  const user = useSelector(getUserById(userId));
   return user ? (
     edit ? (
       <EditUserPage user={user} />
@@ -35,7 +27,9 @@ const UserPage = ({ userId, edit }) => {
             </Link> */}
           </div>
           <div className="col-md-8">
-            <Comments />
+            <CommentsProvider>
+              <Comments />
+            </CommentsProvider>
           </div>
         </div>
       </div>

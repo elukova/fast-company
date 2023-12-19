@@ -3,44 +3,39 @@ import React, { useState, useEffect } from "react";
 
 import TextField from "../common/form/textField";
 import { validator } from "../../utils/validator";
-import API from "../../api";
 import SelectField from "../common/form/selectField";
 import RadioField from "../common/form/radioField";
 import MultiSelectField from "../common/form/multiSelectField";
 import CheckBoxField from "../common/form/chechBoxField";
+import { useDispatch, useSelector } from "react-redux";
+import { getQualities } from "../../store/qualities";
+import { getProfessions } from "../../store/professions";
+import { signUp } from "../../store/users";
 
 const RegisterForm = () => {
+  const dispatch = useDispatch();
   const [data, setData] = useState({
     email: "",
     password: "",
+    name: "",
     profession: "",
     sex: "male",
     qualities: [],
     license: false,
   });
-  const [professions, setProfessions] = useState([]);
-  const [qualities, setQualities] = useState([]);
+  const professions = useSelector(getProfessions());
+  const qualities = useSelector(getQualities());
+  const qualitiesList = qualities.map((q) => ({
+    label: q.name,
+    value: q._id,
+    color: q.color,
+  }));
+  const professionsList = professions.map((p) => ({
+    label: p.name,
+    value: p._id,
+  }));
 
   const [errors, setErrors] = useState({});
-
-  useEffect(() => {
-    API.professions.fetchAll().then((data) => {
-      const professionsList = Object.keys(data).map((professionName) => ({
-        label: data[professionName].name,
-        value: data[professionName]._id,
-      }));
-      setProfessions(professionsList);
-      // console.log(professionsList);
-    });
-    API.qualities.fetchAll().then((data) => {
-      const qualitiesList = Object.keys(data).map((optionName) => ({
-        label: data[optionName].name,
-        value: data[optionName]._id,
-        color: data[optionName].color,
-      }));
-      setQualities(qualitiesList);
-    });
-  }, []);
 
   const handleChange = (target) => {
     setData((prevState) => ({ ...prevState, [target.name]: target.value }));
@@ -50,6 +45,13 @@ const RegisterForm = () => {
     email: {
       isRequired: { message: "Email is required" },
       isEmail: { message: "Email is incorrect" },
+    },
+    name: {
+      isRequired: { message: "Name is required" },
+      min: {
+        message: "Name must consist of at least 3 characters",
+        value: 3,
+      },
     },
     password: {
       isRequired: { message: "Password is required" },
@@ -86,40 +88,12 @@ const RegisterForm = () => {
 
   const isValid = Object.keys(errors).length === 0;
 
-  const getProfessionById = (id) => {
-    for (const prof of professions) {
-      if (prof.value === id) {
-        return { _id: prof.value, name: prof.label };
-      }
-    }
-  };
-
-  const getQualities = (elements) => {
-    const qualitiesArray = [];
-    for (const elem of elements) {
-      for (const quality in qualities) {
-        if (elem.value === qualities[quality].value) {
-          qualitiesArray.push({
-            _id: qualities[quality].value,
-            name: qualities[quality].label,
-            color: qualities[quality].color,
-          });
-        }
-      }
-    }
-    return qualitiesArray;
-  };
-
   const handleSubmit = (e) => {
     e.preventDefault();
-    // const isValid = validate();
+    const isValid = validate();
     if (!isValid) return;
-    const { profession, qualities } = data;
-    console.log({
-      ...data,
-      profession: getProfessionById(profession),
-      qualities: getQualities(qualities),
-    });
+    const newData = { ...data, qualities: data.qualities.map((q) => q.value) };
+    dispatch(signUp(newData));
   };
 
   return (
@@ -133,6 +107,14 @@ const RegisterForm = () => {
         error={errors.email}
       />
       <TextField
+        label="Name"
+        name="name"
+        placeholder="name"
+        value={data.name}
+        onChange={handleChange}
+        error={errors.name}
+      />
+      <TextField
         label="Password"
         type="password"
         name="password"
@@ -143,7 +125,7 @@ const RegisterForm = () => {
       />
       <SelectField
         onChange={handleChange}
-        options={professions}
+        options={professionsList}
         defaultOption="Choose..."
         error={errors.profession}
         value={data.profession}
@@ -164,7 +146,7 @@ const RegisterForm = () => {
       />
 
       <MultiSelectField
-        options={qualities}
+        options={qualitiesList}
         onChange={handleChange}
         defaultValue={data.qualities}
         name="qualities"

@@ -5,13 +5,13 @@ import { Link } from "react-router-dom";
 import BookMark from "../common/bookMark";
 import Qualities from "./qualities";
 import Table from "../common/table";
+import Profession from "./profession";
 
 const UserTable = ({
   users,
   onSort,
   selectedSort,
   onToggleBookMark,
-  onDelete,
   ...rest
 }) => {
   const columns = {
@@ -24,7 +24,10 @@ const UserTable = ({
       name: "Качества",
       component: (user) => <Qualities qualities={user.qualities} />,
     },
-    professions: { path: "profession.name", name: "Профессия" },
+    professions: {
+      name: "Профессия",
+      component: (user) => <Profession id={user.profession} />,
+    },
     completedMeetings: { path: "completedMeetings", name: "Встретился, раз" },
     rate: { path: "rate", name: "Оценка" },
     bookmark: {
@@ -35,16 +38,6 @@ const UserTable = ({
           status={user.bookmark}
           onClick={() => onToggleBookMark(user._id)}
         />
-      ),
-    },
-    delete: {
-      component: (user) => (
-        <button
-          type="button"
-          className="btn btn-danger btn-sm"
-          onClick={() => onDelete(user._id)}>
-          delete
-        </button>
       ),
     },
   };
@@ -63,7 +56,6 @@ UserTable.propTypes = {
   onSort: PropTypes.func.isRequired,
   selectedSort: PropTypes.object.isRequired,
   onToggleBookMark: PropTypes.func.isRequired,
-  onDelete: PropTypes.func.isRequired,
 };
 
 export default UserTable;
