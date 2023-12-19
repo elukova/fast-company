@@ -39,7 +39,6 @@ function isOutdated(date) {
 export const loadProfessionsList = () => async (dispatch, getState) => {
   const { lastFetch } = getState().professions;
   if (isOutdated(lastFetch)) {
-    console.log("lastFetch", lastFetch);
     dispatch(professionsRequested());
     try {
       const { content } = await professionService.fetchAll();
@@ -57,7 +56,6 @@ export const getProfessionById = (id) => (state) => {
   if (state.professions.entities) {
     return state.professions.entities.find((p) => p._id === id);
   }
-  return [];
 };
 
 export default professionsReducer;

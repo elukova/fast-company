@@ -69,6 +69,20 @@ const AuthProvider = ({ children }) => {
     }
   }
 
+  async function createUser(data) {
+    try {
+      const { content } = await userService.create(data);
+      console.log(content);
+      setUser(content);
+    } catch (error) {
+      errorCatcher(error);
+    }
+  }
+  function errorCatcher(error) {
+    const { message } = error.response.data;
+    setError(message);
+  }
+
   async function signUp({ email, password, ...rest }) {
     try {
       const { data } = await httpAuth.post(`accounts:signUp`, {
@@ -99,20 +113,6 @@ const AuthProvider = ({ children }) => {
         }
       }
     }
-  }
-
-  async function createUser(data) {
-    try {
-      const { content } = await userService.create(data);
-      console.log(content);
-      setUser(content);
-    } catch (error) {
-      errorCatcher(error);
-    }
-  }
-  function errorCatcher(error) {
-    const { message } = error.response.data;
-    setError(message);
   }
 
   async function getUserData() {
